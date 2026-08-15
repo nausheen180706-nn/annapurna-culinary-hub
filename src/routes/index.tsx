@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { About } from "@/components/site/About";
@@ -14,6 +14,7 @@ import { ContactSection } from "@/components/site/ContactSection";
 import { Footer } from "@/components/site/Footer";
 import { AIAssistant } from "@/components/site/AIAssistant";
 import { EnquiryProvider } from "@/lib/enquiry";
+import { CinematicIntro } from "@/components/site/CinematicIntro";
 
 const TITLE = "Annapurnam Catering Service | Premium Indian Event Catering";
 const DESCRIPTION =
@@ -35,12 +36,26 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [selectedPackage, setSelectedPackage] = useState("");
+  const [showIntro, setShowIntro] = useState(true);
+  const [startHero, setStartHero] = useState(false);
+
+  // Handle intro completion unmounting
+  useEffect(() => {
+    if (startHero) {
+      // Unmount the intro overlay completely after the transition animation finishes (1s)
+      const timer = setTimeout(() => {
+        setShowIntro(false);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [startHero]);
 
   return (
     <EnquiryProvider>
+      {showIntro && <CinematicIntro onComplete={() => setStartHero(true)} />}
       <Navbar />
       <main>
-        <Hero />
+        <Hero animate={startHero} />
         <About />
         <Services />
         <MenuSection />

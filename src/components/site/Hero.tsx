@@ -2,7 +2,7 @@ import { heroBiryani } from "@/lib/site-images";
 import { BrushDivider } from "./BrushDivider";
 import { LeafMark } from "./Logo";
 
-export function Hero() {
+export function Hero({ animate = true }: { animate?: boolean }) {
   return (
     <section id="home" className="relative overflow-hidden bg-charcoal pt-28 sm:pt-32">
       <div
@@ -25,7 +25,11 @@ export function Hero() {
       />
 
       <div className="relative mx-auto grid max-w-[86rem] items-center gap-12 px-5 pb-24 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:pb-36">
-        <div className="max-w-xl">
+        <div
+          className={`max-w-xl transition-all duration-[1000ms] cubic-bezier(0.25, 1, 0.5, 1) transform ${
+            animate ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+          }`}
+        >
           <p className="eyebrow flex items-center gap-3 text-accent">
             <span className="h-px w-10 bg-accent" />
             Premium Indian Catering
@@ -47,7 +51,11 @@ export function Hero() {
             moments.
           </p>
 
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <div
+            className={`mt-10 flex flex-col gap-4 sm:flex-row transition-all duration-700 ease-out transform delay-300 ${
+              animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
             <a
               href="#booking"
               className="group inline-flex items-center justify-center rounded-sm bg-primary px-9 py-4 text-xs font-bold tracking-[0.22em] text-primary-foreground shadow-lift transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:text-charcoal"
@@ -62,7 +70,11 @@ export function Hero() {
             </a>
           </div>
 
-          <dl className="mt-14 grid max-w-md grid-cols-3 gap-6 border-t border-cream/12 pt-8">
+          <dl
+            className={`mt-14 grid max-w-md grid-cols-3 gap-6 border-t border-cream/12 pt-8 transition-all duration-700 ease-out transform delay-500 ${
+              animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
             {[
               ["1200+", "Events Served"],
               ["18 yrs", "Of Cooking"],
@@ -84,7 +96,11 @@ export function Hero() {
             className="absolute inset-6 rounded-full blur-[80px]"
             style={{ background: "color-mix(in oklab, var(--gold) 22%, transparent)" }}
           />
-          <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
+          <div
+            className={`relative mx-auto aspect-square w-full max-w-[34rem] transition-all duration-[1200ms] cubic-bezier(0.34, 1.3, 0.64, 1) transform ${
+              animate ? "opacity-100 translate-x-0 scale-100" : "opacity-0 translate-x-16 scale-90"
+            }`}
+          >
             <img
               src={heroBiryani}
               alt="Hyderabadi chicken biryani served in a copper handi"
