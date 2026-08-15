@@ -193,7 +193,7 @@ function AdminDashboard() {
 
   async function setStatus(id: string, status: string) {
     const { error } = await supabase.from("bookings").update({ status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success(`Booking marked ${status}`);
     void qc.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
@@ -371,7 +371,7 @@ function AdminDashboard() {
                           .from("reviews")
                           .update({ is_published: !r.is_published })
                           .eq("id", r.id);
-                        if (error) return toast.error(error.message);
+                        if (error) { toast.error(error.message); return; }
                         void qc.invalidateQueries({ queryKey: ["admin", "reviews"] });
                         void qc.invalidateQueries({ queryKey: ["reviews", "published"] });
                       }}
@@ -410,7 +410,7 @@ function MenuAdmin({ items }: { items: MenuItem[] }) {
   };
 
   async function add() {
-    if (!draft.name.trim()) return toast.error("Dish name is required");
+    if (!draft.name.trim()) { toast.error("Dish name is required"); return; }
     const { error } = await supabase.from("menu_items").insert({
       name: draft.name.trim(),
       category: draft.category,
@@ -419,7 +419,7 @@ function MenuAdmin({ items }: { items: MenuItem[] }) {
       image_key: draft.image_key,
       sort_order: items.length + 1,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Dish added");
     setDraft({ ...draft, name: "", description: "", price: "" });
     refresh();
@@ -427,13 +427,13 @@ function MenuAdmin({ items }: { items: MenuItem[] }) {
 
   async function update(item: MenuItem, patch: Partial<MenuItem>) {
     const { error } = await supabase.from("menu_items").update(patch).eq("id", item.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     refresh();
   }
 
   async function remove(id: string) {
     const { error } = await supabase.from("menu_items").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Dish removed");
     refresh();
   }
@@ -563,7 +563,7 @@ function PackagesAdmin({ items }: { items: Package[] }) {
 
   async function add() {
     if (!draft.name.trim() || !draft.price_label.trim())
-      return toast.error("Name and price label are required");
+      { toast.error("Name and price label are required"); return; }
     const { error } = await supabase.from("packages").insert({
       name: draft.name.trim(),
       price_label: draft.price_label.trim(),
@@ -574,21 +574,21 @@ function PackagesAdmin({ items }: { items: Package[] }) {
         .filter(Boolean),
       sort_order: items.length + 1,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Package added");
     setDraft({ name: "", price_label: "", description: "", features: "" });
     refresh();
   }
 
-  async function update(id: string, patch: Record<string, unknown>) {
+  async function update(id: string, patch: Partial<Package>) {
     const { error } = await supabase.from("packages").update(patch).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     refresh();
   }
 
   async function remove(id: string) {
     const { error } = await supabase.from("packages").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Package removed");
     refresh();
   }
